@@ -1,1 +1,175 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+p{
+    margin: 0;
+}
+
+.fill-space{
+    flex: 1 1 auto;
+}
+
+.flex-fullscreen{
+    display: flex;
+    height: 100vh;
+    background-color: whitesmoke;
+}
+
+.block-fullscreen{
+    display: block;
+    height: 100vh;
+    background-color: whitesmoke;
+}
+
+.form-card{
+    min-width: 300px;
+}
+
+.full-width{
+    width:100%;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+}
+
+.justify-content-center{
+    justify-content: center;
+}
+
+.justify-content-between{
+    justify-content: space-between;
+}
+
+.justify-content-around{
+    justify-content: space-around;
+}
+
+.justify-content-end{
+    justify-content: flex-end;
+}
+
+.align-items-center{
+    align-items: center;
+}
+
+.margin-5{
+    margin: 5px !important;
+}
+
+.margin-10{
+    margin:10px !important;
+}
+
+.margin-15{
+    margin:15px !important;
+}
+
+.margin-vertical-5{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.margin-vertical-10{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.margin-vertical-15{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.margin-horizontal-5{
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+.margin-horizontal-10{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+.margin-horizontal-15{
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+}
+
+.padding-5{
+    padding: 5px;
+}
+
+.padding-10{
+    padding:10px;
+}
+
+.padding-15{
+    padding:15px;
+}
+
+.padding-vertical-5{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.padding-vertical-10{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.padding-vertical-15{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.padding-horizontal-5{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.padding-horizontal-10{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.padding-horizontal-15{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.no-wrap{
+    flex-wrap: nowrap;
+}
+
+h1,h2,h3,h4,h5,h6{
+    margin:0 !important
+}
+
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+   
+.spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    border-top-color: #000000;
+    animation: spinner .8s linear infinite;
+}

@@ -1,0 +1,29 @@
+<h5>
+    Bill Details
+</h5>
+<mat-dialog-content>
+    <div class="padding-vertical-15">
+        <app-key-value-display name="Name" value={{billData?.name}}></app-key-value-display>
+        <app-key-value-display name="Description" value={{billData?.description}}></app-key-value-display>
+        <app-key-value-display name="Amount" value={{billData?.amount}}></app-key-value-display>
+        <app-key-value-display name="Manager Response" value={{getManagerResponse()}}></app-key-value-display>
+        <app-key-value-display name="Admin Response" value={{getAdminResponse()}}></app-key-value-display>
+        <button mat-button (click)="openFile()">Open bill file</button>
+    </div>
+
+    <h5>User Details</h5>
+    <div class="padding-vertical-15">
+        <app-key-value-display name="Name" value={{billData?.userData?.name}}></app-key-value-display>
+        <app-key-value-display name="Role" value={{billData?.userData?.role}}></app-key-value-display>
+        <app-key-value-display name="Email" value={{billData?.userData?.email}}></app-key-value-display>
+    </div>
+
+    <div class="row justify-content-around">
+        <button mat-raised-button color="primary" (click)="updateBill(true)" *ngIf="isEligibleToUpdate()" class="col col-lg-3 col-4" [class.loading]="approveLoading" [disabled]="approveLoading || rejectLoading">
+            Approve
+        </button>
+        <button mat-raised-button color="warn" (click)="updateBill(false)" *ngIf="isEligibleToUpdate()" class="col col-lg-3 col-4" [class.loading]="rejectLoading" [disabled]="approveLoading || rejectLoading" >
+            Reject
+        </button>
+    </div>
+</mat-dialog-content>

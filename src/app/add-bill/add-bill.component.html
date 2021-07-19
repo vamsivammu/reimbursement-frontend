@@ -1,0 +1,23 @@
+<h3>Add Bill</h3>
+<mat-dialog-content>
+    <form class="padding-vertical-15" [formGroup]="addBillFormgroup">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input type="text" matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea cols="30" rows="10" matInput formControlName="description"></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Amount</mat-label>
+                <input type="number" matInput formControlName="amount">
+            </mat-form-field>
+            <input type="file" accept="application/pdf" id="fileInput" (change)="handleFileChange($event)">
+            <div class="row justify-content-end">
+                <button mat-raised-button color="primary" [disabled]="loading" class="col col-4 col-lg-2 {{loading?'spinner':''}}" (click)="validateForm()">Add Bill</button>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
