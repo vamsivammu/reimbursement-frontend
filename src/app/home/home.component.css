@@ -28,9 +28,13 @@ td, th {
 }
 
 .acceptedBill{
-  background-color: lightgreen;
+  color: rgb(9, 147, 9);
+  font-weight: bold;
+  /* color: white !important; */
 }
 
 .rejectedBill{
-  background-color: rgb(198, 69, 69);
+  color: rgb(201, 37, 70);
+  font-weight: bold;
+  /* color: white !important; */
 }

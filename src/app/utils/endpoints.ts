@@ -10,8 +10,7 @@ export const GET_BILLS = `${BASE_URL}/bill`;
 export const ADD_BILL = GET_BILLS;
 export const UPLOAD_BILL = `${GET_BILLS}/upload`;
 export const GET_BILL = (billId:string) => `${ADD_BILL}/${billId}`;
-export const MANAGER_UPDATE = (billId:string) =>`${GET_BILL(billId)}/managerOperation`;
-export const ADMIN_UPDATE = (billId:string) =>`${GET_BILL(billId)}/adminOperation`;
+export const UPDATE_BILL = GET_BILL;
 
 
 

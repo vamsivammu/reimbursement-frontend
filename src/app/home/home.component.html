@@ -5,7 +5,7 @@
         <button mat-button [class.spinner]="logoutLoading" (click)="logout()" >Logout</button>
     </mat-toolbar>
     <div class="row">
-        <button *ngIf="userData?.role != 'Admin'" mat-raised-button color="primary" class="col col-3 col-lg-1 margin-10" (click)="openAddBillDialog()">Add Bill</button>
+        <button *ngIf="userData?.role != 3" mat-raised-button color="primary" class="col col-3 col-lg-1 margin-10" (click)="openAddBillDialog()">Add Bill</button>
     </div>
     <div class="table-container mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
@@ -20,14 +20,9 @@
                 <td mat-cell *matCellDef="let bill"> {{bill.amount}} </td>
             </ng-container>
           
-            <ng-container matColumnDef="managerPending">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Manager Response </th>
-                <td mat-cell *matCellDef="let bill"> {{getManagerResponse(bill)}} </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="adminPending">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Admin Response </th>
-                <td mat-cell *matCellDef="let bill"> {{getAdminResponse(bill)}} </td>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Current Status </th>
+                <td mat-cell *matCellDef="let bill" [class.acceptedBill]="isAccepted(bill)" [class.rejectedBill]="isRejected(bill)"> {{getStatus(bill)}} </td>
             </ng-container>
             
             <ng-container matColumnDef="createdAt">
@@ -38,18 +33,9 @@
 
             <tr mat-header-row *matHeaderRowDef="columns"></tr>
             <tr style="cursor: pointer;" mat-row *matRowDef="let row; columns: columns; let i = index" 
-            [class.rejectedBill]="userData?.id == row.userId && isRejected(row)" 
-            [class.managerBill]="userData?.role=='Manager' && userData?.id==row.userId" 
-            [class.acceptedBill]="userData?.id == row.userId && isAccepted(row)"
-            (click)="openBill(row,i)"></tr>
+                (click)="openBill(row,i)">
+            </tr>
           </table>
           <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
     </div>
-    <div class="row justify-content-center margin-vertical-15" *ngIf="userData?.role=='Manager'">
-        <span class="mybill"></span>My pending bills
-    </div>
-    <div class="row justify-content-center margin-vertical-15" *ngIf="userData?.role=='Manager'">
-        <span class="mybill acceptedBill"></span>My accepted bills
-    </div>
-
 </div>

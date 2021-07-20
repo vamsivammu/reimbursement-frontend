@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { BILL_STATUS, ROLES } from '../utils/constants';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit{
   @ViewChild(MatTable) table!: MatTable<IBill>;
   @ViewChild(MatSort) sort!: MatSort;
   dataSource!: MatTableDataSource<IBill>;
-  columns = ["name","amount","managerPending","adminPending","createdAt"];  
+  columns = ["name","amount","status","createdAt"];  
 
   bills:IBill[] = [];
   
@@ -34,6 +35,8 @@ export class HomeComponent implements OnInit{
   logoutLoading:boolean = false;
 
   billIndex = -1;
+
+  roles = Object.values(ROLES);
   constructor(private dialog:MatDialog, private billService:BillService, private authService:AuthService, private router:Router) { 
     this.userData = this.authService.userData;
     
@@ -76,6 +79,18 @@ export class HomeComponent implements OnInit{
     })
   }
 
+  getStatus(bill:IBill){
+    if(bill.status==BILL_STATUS.Accepted){
+      return 'Accepted by Admin';
+    }
+    else if(bill.status==BILL_STATUS.Pending){
+      return `Pending by ${this.roles[bill.currentAssignedRoleId - 1]}`;
+    }
+    else{
+      return `Rejected by ${this.roles[bill.currentAssignedRoleId - 1]}`;
+    }
+  }
+
   async logout(){
     try{
       this.logoutLoading = true;
@@ -87,36 +102,15 @@ export class HomeComponent implements OnInit{
     this.logoutLoading = false;
   }
 
-  getManagerResponse(bill:IBill){
-    if(bill.managerPending){
-      return "Pending";
-    }else{
-      return bill?.managerAccepted?"Accepted":"Rejected";
-    }
-  }
-
-  getAdminResponse(bill:IBill){
-    if(bill.managerAccepted){
-      return bill.adminPending?"Pending":bill.adminAccepted?"Accepted":"Rejected";
-    }
-    return bill.managerPending?"Pending":"Closed";
-  }
-
   parseDate(datestring:string){
     return new Date(datestring).toLocaleString();
   }
 
   isAccepted(bill:IBill){
-    if(this.getAdminResponse(bill) == 'Accepted'){
-      return true;
-    }
-    return false;
+    return bill.status == BILL_STATUS.Accepted;
   }
 
   isRejected(bill:IBill){
-    if(this.getManagerResponse(bill) == 'Rejected' || this.getAdminResponse(bill) == 'Rejected'){
-      return true;
-    }
-    return false;
+    return bill.status == BILL_STATUS.Rejected;
   }
 }

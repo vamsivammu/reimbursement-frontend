@@ -28,18 +28,27 @@
     </div>
 </mat-dialog-content>
  -->
-
 <mat-dialog-content>
+    <h4 class="text-center padding-vertical-5">Bill and User Details</h4>
+    <mat-divider></mat-divider>
     <div class="column padding-5">
         <div class="bill-user-name">
-            Demo Name
+            {{billData?.userName}}
         </div>
         <div class="bill-user-email">
-            demo@mail.com
+            {{billData?.userEmail}}
         </div>
     </div>
-    <div class="bill-details padding-5">
-        <!-- Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo accusantium nesciunt laborum quam explicabo, eaque facilis eius suscipit dolorum hic. Illo deserunt perspiciatis dolores atque impedit unde quo quaerat fugiat! -->
+    <div class="padding-5">
+        {{billData?.name}}. {{billData?.description}}
+    </div>
+    <div class="bill-status padding-5" [class.acceptedBill]="isAccepted()" [class.rejectedBill]="isRejected()">
+        {{getStatus()}}
+    </div>
+    
+    <div class="row justify-content-around margin-vertical-5">
+        <button mat-raised-button (click)="updateBill(true)" class="col col-4 col-lg-3" color="primary" *ngIf="isEligibleToUpdate()" [class.loading]="approveLoading" [disabled]="approveLoading || rejectLoading">ACCEPT</button>
+        <button mat-raised-button (click)="updateBill(false)" class="col col-4 col-lg-3" color="warn" *ngIf="isEligibleToUpdate()" [class.loading]="rejectLoading" [disabled]="approveLoading || rejectLoading">REJECT</button>
     </div>
     <!-- <mat-card-header>
         <mat-card-title>{{billData?.userData?.name}}</mat-card-title>

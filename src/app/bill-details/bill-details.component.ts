@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from '../services/auth.service';
 import { BillService } from '../services/bill.service';
+import { BILL_STATUS, ROLES } from '../utils/constants';
 import { IBill } from '../utils/interfaces';
 
 @Component({
@@ -11,11 +12,11 @@ import { IBill } from '../utils/interfaces';
 })
 export class BillDetailsComponent implements OnInit {
   billData:IBill;
-  myRole:string;
+  myRole:number;
 
   approveLoading:boolean = false;
   rejectLoading:boolean = false;
-  
+  roles = Object.values(ROLES);
   constructor(
     private dialogRef: MatDialogRef<BillDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) private bill: IBill,
@@ -23,18 +24,10 @@ export class BillDetailsComponent implements OnInit {
     private billService:BillService
     ) {
       this.billData = bill;
-      this.myRole = this.authService.userData?.role as string;
+      this.myRole = this.authService.userData?.role as number;
     }
   
   ngOnInit(): void {
-  }
-  
-  getManagerResponse(){
-    if(this.billData?.managerPending){
-      return "Pending";
-    }else{
-      return this.billData?.managerAccepted?"Accepted":`Rejected. ${this.billData?.managerRejectionReason}`;
-    }
   }
 
   openFile(){
@@ -45,18 +38,8 @@ export class BillDetailsComponent implements OnInit {
     a.remove();
   }
 
-  getAdminResponse(){
-    if(this.billData?.managerAccepted){
-      return this.billData?.adminPending?"Pending":this.billData?.adminAccepted?"Accepted":`Rejected. ${this.billData?.adminRejectionReason}`;
-    }
-    return this.billData?.managerPending?"Pending":"Closed";
-  }
-
   isEligibleToUpdate(){
-    if(this.myRole=="Developer") return false;
-    if(this.myRole=="Manager" && this.billData.managerPending) return true;
-    if(this.myRole=="Admin" && this.billData.adminPending) return true;
-    return false;
+    return this.billData.status == BILL_STATUS.Pending && this.billData.currentAssignedRoleId == this.myRole;
   }
 
   async updateBill(status:boolean){
@@ -64,7 +47,7 @@ export class BillDetailsComponent implements OnInit {
       if(confirm("Do you want to accept this request?")){
         this.approveLoading = true;
         try{
-          const updatedBill = await this.billService.updateBill(this.billData.id,status,'',this.myRole);
+          const updatedBill = await this.billService.updateBill(this.billData.id,status,'');
           this.dialogRef.close(updatedBill);
         }catch(e){
 
@@ -76,7 +59,7 @@ export class BillDetailsComponent implements OnInit {
       if(msg){
         this.rejectLoading = true;
         try{
-          const updatedBill = await this.billService.updateBill(this.billData.id,status,msg,this.myRole);
+          const updatedBill = await this.billService.updateBill(this.billData.id,status,msg);
           this.dialogRef.close(updatedBill);
         }catch(e){
 
@@ -84,6 +67,26 @@ export class BillDetailsComponent implements OnInit {
         this.rejectLoading = false;
       }
     }
+  }
+
+  getStatus(){
+    if(this.billData.status==BILL_STATUS.Accepted){
+      return 'Accepted by Admin';
+    }
+    else if(this.billData.status==BILL_STATUS.Pending){
+      return `Pending by ${this.roles[this.billData.currentAssignedRoleId - 1]}`;
+    }
+    else{
+      return `Rejected by ${this.roles[this.billData.currentAssignedRoleId - 1]}. ${this.billData.reason}`;
+    }
+  }
+
+  isAccepted(){
+    return this.billData.status == BILL_STATUS.Accepted;
+  }
+
+  isRejected(){
+    return this.billData.status == BILL_STATUS.Rejected;
   }
 
 }

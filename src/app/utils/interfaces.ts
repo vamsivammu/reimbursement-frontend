@@ -5,21 +5,21 @@ export interface IBill{
     amount:number;
     fileId?:string;
     userId:string;
-    managerAccepted:boolean;
-    adminAccepted:boolean;
-    managerPending:boolean;
-    adminPending:boolean;
-    managerRejectionReason:string;
-    adminRejectionReason:string;
-    userData:IUser;
+    status:number;
     createdAt:string;
     updatedAt:string;
+    userName:string;
+    userEmail:string;
+    userRole:number;
+    currentAssignedRoleId:number;
+    initialAssignedRoleId:number;
+    reason:string;
 }
 
 export interface IUser{
     id:string;
     name:string;
     email:string;
-    role:string;
+    role:number;
     token:string;
 }

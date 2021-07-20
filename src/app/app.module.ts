@@ -23,8 +23,6 @@ import { HomeComponent } from './home/home.component';
 import { AuthService } from './services/auth.service';
 import { BillService } from './services/bill.service';
 import { AuthGuard } from './guards/auth.guard';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { KeyValueDisplayComponent } from './key-value-display/key-value-display.component';
 import { MatSortModule } from '@angular/material/sort';
 import {ToastrModule} from 'ngx-toastr';
 @NgModule({
@@ -33,8 +31,7 @@ import {ToastrModule} from 'ngx-toastr';
     SigninComponent,
     AddBillComponent,
     BillDetailsComponent,
-    HomeComponent,
-    KeyValueDisplayComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,

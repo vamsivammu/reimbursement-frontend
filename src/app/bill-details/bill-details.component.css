@@ -11,3 +11,16 @@
     margin-top: 1px;
     margin-bottom: 1px;
 }
+
+.bill-status{
+    font-weight: bold;
+}
+
+.acceptedBill{
+    color: rgb(9, 147, 9);
+}
+  
+.rejectedBill{
+    color: rgb(201, 37, 70);
+}
+  
