@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { ROUTE_NAMES } from '../utils/constants';
 
 @Component({
   selector: 'app-signin',
@@ -12,7 +13,7 @@ export class SigninComponent implements OnInit {
 
   signInFormgroup = new FormGroup({
     email:new FormControl('',[Validators.required,Validators.email]),
-    password:new FormControl('',[Validators.required])
+    password:new FormControl('',[Validators.required,Validators.minLength(8)])
   })
   loading:boolean = false;
   constructor(private authService:AuthService,private router:Router) { }
@@ -29,11 +30,12 @@ export class SigninComponent implements OnInit {
   async signIn(){
     const {email,password} = this.signInFormgroup.value;
     this.loading = true;
-    try{
-      await this.authService.signin(email,password);
-      this.router.navigateByUrl('/home')
-    }catch(e){
+    
+    const isLoginSuccess = await this.authService.signin(email,password);
+    if(isLoginSuccess){
+      this.router.navigate([ROUTE_NAMES.HOME]);
     }
+
     this.loading = false;
   }
 

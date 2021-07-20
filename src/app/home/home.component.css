@@ -13,3 +13,24 @@ table{
 td, th {
   width: 25%;
 }
+
+.managerBill{
+  background-color: darkgrey;
+}
+
+.mybill{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: darkgray;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.acceptedBill{
+  background-color: lightgreen;
+}
+
+.rejectedBill{
+  background-color: rgb(198, 69, 69);
+}

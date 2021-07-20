@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit{
   @ViewChild(MatTable) table!: MatTable<IBill>;
   @ViewChild(MatSort) sort!: MatSort;
   dataSource!: MatTableDataSource<IBill>;
-  columns = ["name","amount","managerPending","adminPending","created_at"];  
+  columns = ["name","amount","managerPending","adminPending","createdAt"];  
 
   bills:IBill[] = [];
   
@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit{
 
   logoutLoading:boolean = false;
 
+  billIndex = -1;
   constructor(private dialog:MatDialog, private billService:BillService, private authService:AuthService, private router:Router) { 
     this.userData = this.authService.userData;
     
@@ -48,8 +49,9 @@ export class HomeComponent implements OnInit{
     const dialogRef = this.dialog.open(AddBillComponent);
     const subscription = dialogRef.afterClosed().subscribe((data: IBill)=>{
       if(data){
+        console.log(data);
         this.dataSource.data.push(data);
-        this.table.renderRows();
+        this.dataSource.data = this.dataSource.data;
       }
       subscription.unsubscribe();
     })
@@ -64,10 +66,13 @@ export class HomeComponent implements OnInit{
     this.loading = false;
   }
 
-  openBill(data:any){
+  openBill(data:any,index:number){
     const dialogRef = this.dialog.open(BillDetailsComponent,{data:data,width:"500px"});
+    this.billIndex = index;
     const subscribtion = dialogRef.afterClosed().subscribe((data:IBill)=>{
       if(data){
+        this.dataSource.data[this.billIndex] = data;
+        this.dataSource.data = this.dataSource.data;
         subscribtion.unsubscribe();
       }
     })
@@ -101,5 +106,19 @@ export class HomeComponent implements OnInit{
 
   parseDate(datestring:string){
     return new Date(datestring).toLocaleString();
+  }
+
+  isAccepted(bill:IBill){
+    if(this.getAdminResponse(bill) == 'Accepted'){
+      return true;
+    }
+    return false;
+  }
+
+  isRejected(bill:IBill){
+    if(this.getManagerResponse(bill) == 'Rejected' || this.getAdminResponse(bill) == 'Rejected'){
+      return true;
+    }
+    return false;
   }
 }

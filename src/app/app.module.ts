@@ -28,6 +28,7 @@ import { CustomRenderAdminComponent } from './CustomNg2Components/custom-rendere
 import { CustomRenderManagerComponent } from './CustomNg2Components/custom-renderer-manager.component';
 import { KeyValueDisplayComponent } from './key-value-display/key-value-display.component';
 import { MatSortModule } from '@angular/material/sort';
+import {ToastrModule} from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,8 @@ import { MatSortModule } from '@angular/material/sort';
     Ng2SmartTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    ToastrModule.forRoot()
   ],
   providers: [AuthService,BillService,AuthGuard],
   bootstrap: [AppComponent]

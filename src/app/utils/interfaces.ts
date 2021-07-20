@@ -12,6 +12,8 @@ export interface IBill{
     managerRejectionReason:string;
     adminRejectionReason:string;
     userData:IUser;
+    createdAt:string;
+    updatedAt:string;
 }
 
 export interface IUser{

@@ -1,6 +1,7 @@
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { LOGOUT, REFRESH, SIGN_IN } from '../utils/endpoints';
 import { IUser } from '../utils/interfaces';
 
@@ -11,15 +12,16 @@ export class AuthService {
 
   userData:IUser | undefined;
   
-  constructor(private httpService:HttpClient) { }
+  constructor(private httpService:HttpClient, private toastrService:ToastrService) { }
 
   async signin(email:string,password:string){
     try{
       const response = await this.httpService.post<IUser>(SIGN_IN,{email,password},{withCredentials:true}).toPromise();
       this.userData = response;
+      return true;
     }catch(err){
       this.handleError(err);
-      throw err;
+      return false;
     }
   }
 
@@ -53,13 +55,17 @@ export class AuthService {
     }
   }
 
-  handleError(err:any){
+  handleError(err:HttpErrorResponse){
     console.log(err);
-    if(err?.response){
-      console.log(err.response);
-    }else if(err?.request){
-        
-    }
+    this.showError(err.error?.error,err.error?.message);
+  }
+
+  showSuccess(msg:string){
+    this.toastrService.success(msg);
+  }
+
+  showError(title:string,msg:string){
+    this.toastrService.error(msg,title);
   }
 
 }
