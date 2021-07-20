@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddBillComponent } from '../add-bill/add-bill.component';
-import { CustomRenderAdminComponent } from '../CustomNg2Components/custom-renderer-admin.component';
-import { CustomRenderManagerComponent } from '../CustomNg2Components/custom-renderer-manager.component';
 import { BillService } from '../services/bill.service';
 import { IBill, IUser } from '../utils/interfaces';
 import {LocalDataSource} from 'ng2-smart-table';  
