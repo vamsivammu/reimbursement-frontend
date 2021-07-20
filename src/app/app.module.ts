@@ -24,8 +24,6 @@ import { AuthService } from './services/auth.service';
 import { BillService } from './services/bill.service';
 import { AuthGuard } from './guards/auth.guard';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { CustomRenderAdminComponent } from './CustomNg2Components/custom-renderer-admin.component';
-import { CustomRenderManagerComponent } from './CustomNg2Components/custom-renderer-manager.component';
 import { KeyValueDisplayComponent } from './key-value-display/key-value-display.component';
 import { MatSortModule } from '@angular/material/sort';
 import {ToastrModule} from 'ngx-toastr';
@@ -36,8 +34,6 @@ import {ToastrModule} from 'ngx-toastr';
     AddBillComponent,
     BillDetailsComponent,
     HomeComponent,
-    CustomRenderAdminComponent,
-    CustomRenderManagerComponent,
     KeyValueDisplayComponent
   ],
   imports: [
@@ -54,7 +50,6 @@ import {ToastrModule} from 'ngx-toastr';
     MatDialogModule,
     MatToolbarModule,
     HttpClientModule,
-    Ng2SmartTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
